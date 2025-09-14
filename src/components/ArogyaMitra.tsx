@@ -90,12 +90,7 @@ const ArogyaMitra = () => {
         text: "⚡ Low energy often indicates Ojas depletion. Try our Rasayana therapies, Chyawanprash, and energy-boosting herb combinations. Regular Abhyanga massage will also revitalize you.",
         suggestions: ["Book energy therapy", "View energy supplements", "Schedule wellness consultation"]
       };
-    } else {
-      return {
-        text: "🕉️ Thank you for sharing! Based on Ayurveda principles, I can help you find the right therapy and products. Could you tell me more about your specific concern or symptoms?",
-        suggestions: ["Book general consultation", "Take wellness quiz", "Explore all therapies"]
-      };
-    }
+    } 
   };
 
   return (
