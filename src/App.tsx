@@ -13,7 +13,7 @@ import BookTherapy from "./pages/BookTherapy";
 import KnowledgeHub from "./pages/KnowledgeHub";
 import Chat from "./pages/Chat";
 import Navbar from "./components/Navbar";
-import HealthQuestionnaire from "./pages/HealthQuestionnaire";
+import HealthQuestionnaire from "@/pages/HealthQuestionnaire";
 import NotFound from "./pages/NotFound";
 // import React from "react";
 // import { Routes, Route } from "react-router-dom";
