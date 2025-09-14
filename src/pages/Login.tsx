@@ -19,12 +19,13 @@ const Login = () => {
   const { toast } = useToast();
 
   const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({
-      title: "Welcome back! 🙏",
-      description: "You have been successfully logged in.",
-    });
-  };
+  e.preventDefault();
+  toast({
+    title: "Welcome back! 🙏",
+    description: "You have been successfully logged in.",
+  });
+  navigate("/"); // redirect to homepage
+};
 
   return (
     <div className="min-h-screen wellness-gradient flex items-center justify-center p-4">
