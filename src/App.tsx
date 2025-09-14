@@ -11,7 +11,7 @@ import Features from "./pages/Features";
 import BookTherapy from "./pages/BookTherapy";
 import KnowledgeHub from "./pages/KnowledgeHub";
 import Chat from "./pages/Chat";
-import healthquestionnaire from "./components/HealthQuestionnaire";
+import healthquestionnaire from "@/components/HealthQuestionnaire";
 import NotFound from "./pages/NotFound";
 // import React from "react";
 // import { Routes, Route } from "react-router-dom";
