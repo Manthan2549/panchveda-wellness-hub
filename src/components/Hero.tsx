@@ -17,7 +17,7 @@ const Hero = () => {
               </div>
               
               <h1 className="text-4xl md:text-6xl font-bold text-foreground leading-tight">
-                <span className="bg-[var(--gradient-primary)] bg-clip-text text-transparent">
+                <span className="bg-[var(--gradient-primary)] bg-clip-text text-black">
                   Panchakarma Management Software
                 </span>
               </h1>
