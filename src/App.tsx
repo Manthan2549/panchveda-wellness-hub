@@ -46,7 +46,7 @@ const App = () => (
           <Route path="/questionnaire" element={<HealthQuestionnaire />} />
 {/*         <Route path="/" element={<Features />} /> */}
 {/*         <Route path="/features" element={<Features />} /> */}
-        <Route path="/health-questionnaire" element={<HealthQuestionnaire />} /> {/* ✅ new route */}
+{   <Route path="/health-questionnaire" element={<HealthQuestionnaire />} /> {/* ✅ new route */}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
