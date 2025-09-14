@@ -1,19 +1,26 @@
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, MapPin, User, Phone, Mail } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import { useToast } from "@/hooks/use-toast";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Textarea } from "../components/ui/textarea";
+import { Badge } from "../components/ui/badge";
+import { Calendar, Clock } from "lucide-react";
+import Navbar from "../components/Navbar";
+import { useToast } from "../hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const BookTherapy = () => {
   const [selectedTherapy, setSelectedTherapy] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [notes, setNotes] = useState("");
+
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const therapies = [
     {
@@ -50,32 +57,37 @@ const BookTherapy = () => {
     }
   ];
 
-  const practitioners = [
-    { id: 1, name: "Dr. Priya Sharma", specialization: "Panchakarma Expert", rating: 4.9, experience: "15 years" },
-    { id: 2, name: "Dr. Raj Patel", specialization: "Pain Management", rating: 4.8, experience: "12 years" },
-    { id: 3, name: "Dr. Meera Singh", specialization: "Stress & Anxiety", rating: 4.9, experience: "18 years" }
-  ];
+  const timeSlots = ["9:00 AM", "10:30 AM", "12:00 PM", "2:00 PM", "3:30 PM", "5:00 PM"];
 
-  const timeSlots = [
-    "9:00 AM", "10:30 AM", "12:00 PM", "2:00 PM", "3:30 PM", "5:00 PM"
-  ];
-
-  const handleBooking = (e: React.FormEvent) => {
+  const handleBooking = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     toast({
-      title: "Booking Confirmed! 🎉",
-      description: "Your therapy session has been scheduled. You'll receive a confirmation SMS shortly.",
+      title: "Booking Confirmed 🎉",
+      description: `Your therapy is booked for ${selectedDate} at ${selectedTime}.`
     });
+
+    // reset fields
+    setSelectedTherapy("");
+    setSelectedDate("");
+    setSelectedTime("");
+    setName("");
+    setPhone("");
+    setEmail("");
+    setNotes("");
+
+    // redirect home
+    setTimeout(() => navigate("/"), 1500);
   };
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
+
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Book Your <span className="bg-[var(--gradient-primary)] bg-clip-text text-black">Therapy Session</span>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">
+            Book Your <span className="text-primary">Therapy Session</span>
           </h1>
           <p className="text-xl text-muted-foreground">
             Choose from our authentic Panchakarma therapies and experienced practitioners
@@ -85,11 +97,11 @@ const BookTherapy = () => {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Therapy Selection */}
           <div className="lg:col-span-2 space-y-6">
-            <Card className="wellness-card">
+            <Card>
               <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
+                <CardTitle className="flex items-center gap-2">
                   <Calendar className="w-5 h-5 text-primary" />
-                  <span>Select Therapy</span>
+                  Select Therapy
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -105,7 +117,7 @@ const BookTherapy = () => {
                   >
                     <div className="flex items-start justify-between">
                       <div className="space-y-2">
-                        <h3 className="font-semibold text-foreground">{therapy.name}</h3>
+                        <h3 className="font-semibold">{therapy.name}</h3>
                         <p className="text-sm text-muted-foreground">{therapy.description}</p>
                         <div className="flex flex-wrap gap-1">
                           {therapy.benefits.map((benefit, index) => (
@@ -126,11 +138,11 @@ const BookTherapy = () => {
             </Card>
 
             {/* Date & Time Selection */}
-            <Card className="wellness-card">
+            <Card>
               <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
+                <CardTitle className="flex items-center gap-2">
                   <Clock className="w-5 h-5 text-primary" />
-                  <span>Select Date & Time</span>
+                  Select Date & Time
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -141,7 +153,7 @@ const BookTherapy = () => {
                     type="date"
                     value={selectedDate}
                     onChange={(e) => setSelectedDate(e.target.value)}
-                    min={new Date().toISOString().split('T')[0]}
+                    min={new Date().toISOString().split("T")[0]}
                   />
                 </div>
                 <div>
@@ -165,32 +177,32 @@ const BookTherapy = () => {
 
           {/* Booking Summary & Form */}
           <div className="space-y-6">
-            <Card className="wellness-card">
+            <Card>
               <CardHeader>
                 <CardTitle>Booking Summary</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {selectedTherapy && (
-                  <div className="space-y-2">
+                  <>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Therapy:</span>
                       <span className="font-medium">
-                        {therapies.find(t => t.id === selectedTherapy)?.name}
+                        {therapies.find((t) => t.id === selectedTherapy)?.name}
                       </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Duration:</span>
                       <span className="font-medium">
-                        {therapies.find(t => t.id === selectedTherapy)?.duration}
+                        {therapies.find((t) => t.id === selectedTherapy)?.duration}
                       </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Price:</span>
                       <span className="font-bold text-primary">
-                        {therapies.find(t => t.id === selectedTherapy)?.price}
+                        {therapies.find((t) => t.id === selectedTherapy)?.price}
                       </span>
                     </div>
-                  </div>
+                  </>
                 )}
                 {selectedDate && (
                   <div className="flex justify-between">
@@ -207,35 +219,57 @@ const BookTherapy = () => {
               </CardContent>
             </Card>
 
-            <Card className="wellness-card">
+            <Card>
               <CardHeader>
                 <CardTitle>Contact Information</CardTitle>
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleBooking} className="space-y-4">
-                  <div className="space-y-2">
+                  <div>
                     <Label htmlFor="name">Full Name</Label>
-                    <Input id="name" placeholder="Enter your full name" required />
+                    <Input
+                      id="name"
+                      placeholder="Enter your full name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      required
+                    />
                   </div>
-                  <div className="space-y-2">
+                  <div>
                     <Label htmlFor="phone">Phone Number</Label>
-                    <Input id="phone" type="tel" placeholder="Enter your phone number" required />
+                    <Input
+                      id="phone"
+                      type="tel"
+                      placeholder="Enter your phone number"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      required
+                    />
                   </div>
-                  <div className="space-y-2">
+                  <div>
                     <Label htmlFor="email">Email Address</Label>
-                    <Input id="email" type="email" placeholder="Enter your email" required />
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                    />
                   </div>
-                  <div className="space-y-2">
+                  <div>
                     <Label htmlFor="notes">Special Requirements</Label>
                     <Textarea
                       id="notes"
-                      placeholder="Any special requirements or health conditions we should know about..."
+                      placeholder="Any special requirements..."
                       rows={3}
+                      value={notes}
+                      onChange={(e) => setNotes(e.target.value)}
                     />
                   </div>
                   <Button
                     type="submit"
-                    className="w-full hero-button"
+                    className="w-full"
                     disabled={!selectedTherapy || !selectedDate || !selectedTime}
                   >
                     Confirm Booking
