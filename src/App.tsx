@@ -11,7 +11,7 @@ import Features from "./pages/Features";
 import BookTherapy from "./pages/BookTherapy";
 import KnowledgeHub from "./pages/KnowledgeHub";
 import Chat from "./pages/Chat";
-import healthquestionnaire from "@/components/HealthQuestionnaire";
+import HealthQuestionnaire from "./components/HealthQuestionnaire";
 import NotFound from "./pages/NotFound";
 // import React from "react";
 // import { Routes, Route } from "react-router-dom";
@@ -44,7 +44,9 @@ const App = () => (
           <Route path="/chat" element={<Chat />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/questionnaire" element={<HealthQuestionnaire />} />
-           <Route path="/healthquestionnaire" element={<HealthQuestionnaire />} />
+{/*         <Route path="/" element={<Features />} /> */}
+{/*         <Route path="/features" element={<Features />} /> */}
+        <Route path="/health-questionnaire" element={<HealthQuestionnaire />} /> {/* ✅ new route */}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
