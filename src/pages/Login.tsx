@@ -34,12 +34,14 @@ const Login: React.FC = () => {
       description: `You have been successfully logged in as ${loginData.userType}.`,
     });
 
+    // reset form
     setLoginData({
       email: "",
       password: "",
       userType: "patient",
     });
 
+    // redirect
     navigate("/dashboard");
   };
 
