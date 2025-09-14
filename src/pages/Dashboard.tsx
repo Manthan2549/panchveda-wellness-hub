@@ -64,7 +64,7 @@ const Dashboard = () => {
         {/* Welcome Section */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">
-            Welcome back, Priya! 🙏
+            Welcome back, Prakhar! 🙏
           </h1>
           <p className="text-muted-foreground">
             Your wellness journey is progressing beautifully. Here's your health overview.
