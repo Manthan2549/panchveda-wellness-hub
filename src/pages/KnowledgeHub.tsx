@@ -131,7 +131,7 @@ const KnowledgeHub = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-12">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            <span className="bg-[var(--gradient-primary)] bg-clip-text text-transparent">
+            <span className="bg-[var(--gradient-primary)] bg-clip-text text-black">
               Knowledge Hub
             </span>
           </h1>
