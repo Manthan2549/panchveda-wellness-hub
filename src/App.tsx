@@ -7,11 +7,13 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Store from "./pages/Store";
+// import Home from "./pages/Home";
 import Features from "./pages/Features";
 import BookTherapy from "./pages/BookTherapy";
 import KnowledgeHub from "./pages/KnowledgeHub";
 import Chat from "./pages/Chat";
-import HealthQuestionnaire from "./components/HealthQuestionnaire";
+import Navbar from "./components/Navbar";
+import HealthQuestionnaire from "./pages/HealthQuestionnaire";
 import NotFound from "./pages/NotFound";
 // import React from "react";
 // import { Routes, Route } from "react-router-dom";
@@ -46,7 +48,7 @@ const App = () => (
           <Route path="/questionnaire" element={<HealthQuestionnaire />} />
 {/*         <Route path="/" element={<Features />} /> */}
 {/*         <Route path="/features" element={<Features />} /> */}
-        <Route path="/health-questionnaire" element={<HealthQuestionnaire />} /> {/* ✅ new route */}
+         <Route path="/health-questionnaire" element={<HealthQuestionnaire />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
