@@ -13,6 +13,12 @@ import KnowledgeHub from "./pages/KnowledgeHub";
 import Chat from "./pages/Chat";
 import HealthQuestionnaire from "./components/HealthQuestionnaire";
 import NotFound from "./pages/NotFound";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+// import Login from "./pages/Login";
+// import Dashboard from "./pages/Dashboard";
+
+export default App;
 
 const queryClient = new QueryClient();
 
@@ -25,7 +31,8 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Login />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/features" element={<Features />} />
           <Route path="/book" element={<BookTherapy />} />
           <Route path="/progress" element={<Dashboard />} />
