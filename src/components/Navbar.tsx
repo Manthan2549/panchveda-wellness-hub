@@ -2,7 +2,15 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, MessageCircle, User, ShoppingCart, Calendar, BarChart3, BookOpen } from "lucide-react";
+import {
+  Menu,
+  MessageCircle,
+  User,
+  ShoppingCart,
+  Calendar,
+  BarChart3,
+  BookOpen,
+} from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +46,9 @@ const Navbar = () => {
                 key={item.name}
                 to={item.path}
                 className={`transition-colors hover:text-primary ${
-                  isActive(item.path) ? "text-primary font-medium" : "text-muted-foreground"
+                  isActive(item.path)
+                    ? "text-primary font-medium"
+                    : "text-muted-foreground"
                 }`}
               >
                 {item.name}
@@ -60,8 +70,9 @@ const Navbar = () => {
                 Login
               </Link>
             </Button>
+            {/* ✅ Desktop Get Started → HealthQuestionnaire */}
             <Button className="hero-button" size="sm" asChild>
-              <Link to="/signup">Get Started</Link>
+              <Link to="/healthquestionnaire">Get Started</Link>
             </Button>
           </div>
 
@@ -97,8 +108,12 @@ const Navbar = () => {
                         Login
                       </Link>
                     </Button>
+                    {/* ✅ Mobile Get Started → HealthQuestionnaire */}
                     <Button className="hero-button w-full" asChild>
-                      <Link to="/signup" onClick={() => setIsOpen(false)}>
+                      <Link
+                        to="/healthquestionnaire"
+                        onClick={() => setIsOpen(false)}
+                      >
                         Get Started
                       </Link>
                     </Button>
