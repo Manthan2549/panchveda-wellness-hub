@@ -72,7 +72,7 @@ const Navbar = () => {
             </Button>
             {/* ✅ Redirect to HealthQuestionnaire.tsx */}
             <Button className="hero-button" size="sm" asChild>
-              <Link to="/health-questionnaire">Get Started</Link>
+              <Link to="/healthquestionnaire">Get Started</Link>
             </Button>
           </div>
 
@@ -113,7 +113,7 @@ const Navbar = () => {
                     {/* ✅ Redirect to HealthQuestionnaire.tsx */}
                     <Button className="hero-button w-full" asChild>
                       <Link
-                        to="/health-questionnaire"
+                        to="/healthquestionnaire"
                         onClick={() => setIsOpen(false)}
                       >
                         Get Started
