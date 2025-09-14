@@ -9,7 +9,7 @@ const Features = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
+
       <div className="container mx-auto px-4 py-16">
         {/* Header */}
         <div className="text-center mb-16 smooth-enter">
@@ -18,7 +18,7 @@ const Features = () => {
             <span>Complete Feature Overview</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            <span className="bg-[var(--gradient-primary)] bg-clip-text text-black">
+            <span className="bg-[var(--gradient-primary)] bg-clip-text text-transparent">
               Powerful Features
             </span>
             <br />
@@ -44,7 +44,7 @@ const Features = () => {
                 Join thousands of practitioners and patients experiencing the future of Ayurveda healthcare.
               </p>
             </CardHeader>
-{/*             <CardContent className="space-y-4">
+            <CardContent className="space-y-4">
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button className="hero-button" size="lg" asChild>
                   <Link to="/signup">
@@ -53,12 +53,10 @@ const Features = () => {
                   </Link>
                 </Button>
                 <Button variant="outline" size="lg" asChild>
-                  <Link to="/login">
-                    Sign In
-                  </Link>
+                  <Link to="/login">Sign In</Link>
                 </Button>
               </div>
-            </CardContent> */}
+            </CardContent>
           </Card>
         </div>
       </div>
