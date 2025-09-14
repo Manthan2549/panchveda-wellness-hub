@@ -30,7 +30,38 @@ const Features = () => {
           </p>
         </div>
 
-        
+        {/* Features Grid */}
+        <FeaturesGrid />
+
+{/*         {/* CTA Section */}
+{/*         <div className="text-center mt-16">
+          <Card className="wellness-card max-w-2xl mx-auto">
+            <CardHeader>
+              <CardTitle className="text-2xl text-foreground">
+                Ready to Transform Your Practice?
+              </CardTitle>
+              <p className="text-muted-foreground">
+                Join thousands of practitioners and patients experiencing the future of Ayurveda healthcare.
+              </p>
+            </CardHeader> */}
+{/*             <CardContent className="space-y-4">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button className="hero-button" size="lg" asChild>
+                  <Link to="/signup">
+                    Start Free Trial
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </Link>
+                </Button>
+                <Button variant="outline" size="lg" asChild>
+                  <Link to="/login">
+                    Sign In
+                  </Link>
+                </Button>
+              </div>
+            </CardContent> */}
+          </Card> */}
+        </div>
+      </div>
     </div>
   );
 };
