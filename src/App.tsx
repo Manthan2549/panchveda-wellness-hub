@@ -18,7 +18,7 @@ import NotFound from "./pages/NotFound";
 // import Login from "./pages/Login";
 // import Dashboard from "./pages/Dashboard";
 
-export default App;
+// export default App;
 
 const queryClient = new QueryClient();
 
