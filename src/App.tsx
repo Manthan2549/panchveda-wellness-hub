@@ -13,8 +13,8 @@ import KnowledgeHub from "./pages/KnowledgeHub";
 import Chat from "./pages/Chat";
 import HealthQuestionnaire from "./components/HealthQuestionnaire";
 import NotFound from "./pages/NotFound";
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+// import React from "react";
+// import { Routes, Route } from "react-router-dom";
 // import Login from "./pages/Login";
 // import Dashboard from "./pages/Dashboard";
 
