@@ -97,11 +97,16 @@ const Navbar = () => {
                         Login
                       </Link>
                     </Button>
-                    <Button className="hero-button w-full" asChild>
+                    <Button className="hero-button" size="sm" asChild>
+  <Link to="/health-questionnaire">Get Started</Link>
+</Button>
+
+                   {/*                    <Button className="hero-button w-full" asChild>
                       <Link to="/signup" onClick={() => setIsOpen(false)}>
                         Get Started
                       </Link>
-                    </Button>
+                    </Button> */
+                   }
                   </div>
                 </div>
               </SheetContent>
