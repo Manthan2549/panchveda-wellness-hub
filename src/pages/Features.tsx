@@ -18,7 +18,7 @@ const Features = () => {
             <span>Complete Feature Overview</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            <span className="bg-[var(--gradient-primary)] bg-clip-text text-transparent">
+            <span className="bg-[var(--gradient-primary)] bg-clip-text text-black">
               Powerful Features
             </span>
             <br />
