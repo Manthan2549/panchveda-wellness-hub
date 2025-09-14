@@ -117,7 +117,7 @@ const FeaturesGrid = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 smooth-enter">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Comprehensive <span className="bg-[var(--gradient-primary)] bg-clip-text text-transparent">Healthcare Features</span>
+            Comprehensive <span className="bg-[var(--gradient-primary)] bg-clip-text text-black">Healthcare Features</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Experience the complete digital transformation of traditional Ayurveda practice with 
