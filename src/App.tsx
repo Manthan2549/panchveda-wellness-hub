@@ -7,6 +7,10 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Store from "./pages/Store";
+import Features from "./pages/Features";
+import BookTherapy from "./pages/BookTherapy";
+import KnowledgeHub from "./pages/KnowledgeHub";
+import Chat from "./pages/Chat";
 import HealthQuestionnaire from "./components/HealthQuestionnaire";
 import NotFound from "./pages/NotFound";
 
@@ -22,8 +26,13 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/features" element={<Features />} />
+          <Route path="/book" element={<BookTherapy />} />
+          <Route path="/progress" element={<Dashboard />} />
           <Route path="/store" element={<Store />} />
+          <Route path="/knowledge" element={<KnowledgeHub />} />
+          <Route path="/chat" element={<Chat />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/questionnaire" element={<HealthQuestionnaire />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
