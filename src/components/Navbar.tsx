@@ -72,7 +72,7 @@ const Navbar = () => {
             </Button>
             {/* ✅ Desktop Get Started → HealthQuestionnaire */}
             <Button className="hero-button" size="sm" asChild>
-              <Link to="/health-questionnaire">Get Started</Link>
+              <Link to="/HealthQuestionnaire">Get Started</Link>
             </Button>
           </div>
 
@@ -110,8 +110,7 @@ const Navbar = () => {
                     </Button>
                     {/* ✅ Mobile Get Started → HealthQuestionnaire */}
                     <Button className="hero-button w-full" asChild>
-                      <Link
-                        to="/health-questionnaire"
+                      <Link to="/HealthQuestionnaire"
                         onClick={() => setIsOpen(false)}
                       >
                         Get Started
