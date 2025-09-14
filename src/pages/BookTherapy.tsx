@@ -75,7 +75,7 @@ const BookTherapy = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-12">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Book Your <span className="bg-[var(--gradient-primary)] bg-clip-text text-black">Therapy Session</span>
+            Book Your <span className="bg-[var(--gradient-primary)] bg-clip-text text-green">Therapy Session</span>
           </h1>
           <p className="text-xl text-muted-foreground">
             Choose from our authentic Panchakarma therapies and experienced practitioners
