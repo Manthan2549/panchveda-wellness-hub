@@ -161,5 +161,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
-add a logo behind panchveda
+export default Navbar:
