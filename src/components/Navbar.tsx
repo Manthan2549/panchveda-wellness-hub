@@ -61,7 +61,7 @@ const Navbar = () => {
               </Link>
             </Button>
             <Button className="hero-button" size="sm" asChild>
-              <Link to="/signup">Get Started</Link>
+              <Link to="/health-questionnaire">Get Started</Link>
             </Button>
           </div>
 
