@@ -31,13 +31,6 @@ const Navbar = () => {
       <div className="container flex h-16 items-center justify-between">
         {/* ===== Left Section (Logo + Title) ===== */}
         <Link to="/" className="flex items-center space-x-2">
-          <span className="flex items-center justify-center">
-            <img
-              src={logo}
-              alt=""
-              className="w-8 h-8 rounded-full"
-            />
-          </span>
           <span className="font-bold text-xl text-primary">🌿 Panchaveda</span>
         </Link>
 
