@@ -34,7 +34,7 @@ const Navbar = () => {
           <span className="flex items-center justify-center">
             <img
               src={logo}
-              alt="Panchaveda Logo"
+              alt=""
               className="w-8 h-8 rounded-full"
             />
           </span>
