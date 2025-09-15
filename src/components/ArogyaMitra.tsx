@@ -70,27 +70,85 @@ const ArogyaMitra = () => {
   const generateAyurvedaResponse = (userInput: string) => {
     const input = userInput.toLowerCase();
     
-    if (input.includes("stress") || input.includes("anxiety")) {
+    // Stress and Mental Health
+    if (input.includes("stress") || input.includes("anxiety") || input.includes("mental") || input.includes("worry")) {
       return {
-        text: "🌿 For stress relief, I recommend Shirodhara therapy combined with Abhyanga massage. Consider our Brahmi and Ashwagandha supplements. Practicing daily pranayama will also help balance your nervous system.",
-        suggestions: ["Book Shirodhara therapy", "View stress-relief products", "Learn breathing exercises"]
+        text: "🌿 For stress and anxiety, Ayurveda recommends balancing Vata dosha. Shirodhara (oil pouring therapy) combined with Abhyanga massage can provide deep relaxation. Herbs like Brahmi, Ashwagandha, and Jatamansi are excellent for calming the nervous system. Daily pranayama (breathing exercises) and meditation will help restore mental equilibrium.",
+        suggestions: ["Book Shirodhara therapy", "View stress-relief products", "Learn Pranayama techniques", "Ashwagandha supplements"]
       };
-    } else if (input.includes("pain") || input.includes("joint")) {
+    }
+    
+    // Pain and Joint Issues
+    else if (input.includes("pain") || input.includes("joint") || input.includes("arthritis") || input.includes("back") || input.includes("neck")) {
       return {
-        text: "🌱 For pain management, Panchakarma's Basti therapy is highly effective. Our turmeric-based oils and Guggulu supplements can provide natural relief. Would you like to explore these options?",
-        suggestions: ["Book Basti therapy", "View pain-relief oils", "Consult Ayurveda doctor"]
+        text: "🌱 For pain management, Ayurveda addresses the root cause through Panchakarma therapies. Basti (medicated enemas) and Abhyanga with warm herbal oils like Mahanarayana or Sahacharadi are highly effective. Supplements containing Guggulu, Shallaki (Boswellia), and turmeric provide natural anti-inflammatory relief. The combination of internal medicines and external therapies gives lasting results.",
+        suggestions: ["Book Basti therapy", "Pain-relief oil massage", "Herbal supplements", "Consult Ayurveda doctor"]
       };
-    } else if (input.includes("digest") || input.includes("stomach")) {
+    }
+    
+    // Digestive Issues
+    else if (input.includes("digest") || input.includes("stomach") || input.includes("acidity") || input.includes("constipation") || input.includes("bloating")) {
       return {
-        text: "🍃 Digestive health is crucial in Ayurveda. I suggest Virechana therapy and incorporating Triphala in your routine. Our digestive teas and Agni-boosting herbs can help restore balance.",
-        suggestions: ["Book digestive therapy", "Shop digestive products", "Get diet consultation"]
+        text: "🍃 Digestive health (Agni) is the cornerstone of Ayurveda. For digestive issues, Virechana (therapeutic purgation) cleanses accumulated toxins. Daily use of Triphala balances all three doshas and improves digestion. Digestive spices like ginger, cumin, and fennel kindle digestive fire. Proper meal timing and eating habits are equally important for gut health.",
+        suggestions: ["Book Virechana therapy", "Triphala supplements", "Digestive spice tea", "Diet consultation"]
       };
-    } else if (input.includes("energy") || input.includes("tired")) {
+    }
+    
+    // Energy and Fatigue
+    else if (input.includes("energy") || input.includes("tired") || input.includes("fatigue") || input.includes("weakness")) {
       return {
-        text: "⚡ Low energy often indicates Ojas depletion. Try our Rasayana therapies, Chyawanprash, and energy-boosting herb combinations. Regular Abhyanga massage will also revitalize you.",
-        suggestions: ["Book energy therapy", "View energy supplements", "Schedule wellness consultation"]
+        text: "⚡ Low energy indicates depleted Ojas (vital essence). Rasayana (rejuvenation) therapies like Chyawanprash, Amalaki, and Shatavari restore vitality. Regular Abhyanga massage improves circulation and energy flow. Proper sleep, balanced nutrition, and gentle exercise like yoga help rebuild energy reserves naturally.",
+        suggestions: ["Rasayana therapy", "Chyawanprash supplements", "Energy-boosting massage", "Yoga consultation"]
       };
-    } 
+    }
+    
+    // Skin Problems
+    else if (input.includes("skin") || input.includes("acne") || input.includes("eczema") || input.includes("rash") || input.includes("pigmentation")) {
+      return {
+        text: "✨ Skin issues often reflect internal imbalances, particularly Pitta dosha. Blood purification through herbs like Neem, Manjistha, and Sariva helps clear toxins. External applications of medicated oils and face packs provide relief. A Pitta-pacifying diet avoiding spicy, oily foods is essential for lasting skin health.",
+        suggestions: ["Blood purification therapy", "Herbal face packs", "Neem supplements", "Skin consultation"]
+      };
+    }
+    
+    // Sleep Issues
+    else if (input.includes("sleep") || input.includes("insomnia") || input.includes("rest")) {
+      return {
+        text: "🌙 Sleep disorders indicate Vata imbalance. Shiropichu (oil pooling on head) and gentle head massage with Brahmi oil promote natural sleep. Herbs like Tagara, Jatamansi, and warm milk with nutmeg before bed help induce restful sleep. Establishing a calming evening routine is crucial.",
+        suggestions: ["Sleep therapy treatment", "Brahmi oil massage", "Herbal sleep aids", "Sleep hygiene consultation"]
+      };
+    }
+    
+    // Weight Management
+    else if (input.includes("weight") || input.includes("obesity") || input.includes("fat") || input.includes("metabolism")) {
+      return {
+        text: "⚖️ Weight management in Ayurveda focuses on balancing metabolism (Agni) and reducing Kapha dosha. Udwartana (herbal powder massage) and specific Panchakarma therapies help. Herbs like Triphala, Guggulu, and Vrikshamla support healthy weight. A Kapha-reducing diet with regular exercise is essential.",
+        suggestions: ["Udwartana therapy", "Weight management herbs", "Metabolism consultation", "Kapha diet plan"]
+      };
+    }
+    
+    // General Ayurveda Questions
+    else if (input.includes("ayurveda") || input.includes("dosha") || input.includes("constitution") || input.includes("prakriti")) {
+      return {
+        text: "🕉️ Ayurveda is the science of life focusing on prevention and holistic healing. Your unique constitution (Prakriti) determines your optimal diet, lifestyle, and treatments. The three doshas - Vata (movement), Pitta (transformation), and Kapha (structure) - govern all body functions. Understanding your constitution helps achieve perfect health balance.",
+        suggestions: ["Prakriti consultation", "Dosha assessment", "Lifestyle guidance", "Ayurveda education"]
+      };
+    }
+    
+    // Therapy Information
+    else if (input.includes("therapy") || input.includes("treatment") || input.includes("panchakarma")) {
+      return {
+        text: "🏥 Panchakarma is Ayurveda's premier detoxification and rejuvenation therapy consisting of five main procedures: Vamana (emesis), Virechana (purgation), Basti (enemas), Nasya (nasal therapy), and Raktamokshana (bloodletting). These therapies remove deep-seated toxins and restore natural balance. The treatment is customized based on individual constitution and health conditions.",
+        suggestions: ["Panchakarma consultation", "Therapy packages", "Treatment planning", "Book assessment"]
+      };
+    }
+    
+    // Default Response
+    else {
+      return {
+        text: "🙏 Thank you for reaching out! As your Ayurveda wellness guide, I can help with stress management, pain relief, digestive health, energy enhancement, skin care, sleep issues, and overall wellness. Ayurveda offers personalized solutions based on your unique constitution and current health status. What specific area would you like to explore?",
+        suggestions: ["Take health assessment", "Book consultation", "View therapies", "Explore products", "Learn about doshas"]
+      };
+    }
   };
 
   return (
