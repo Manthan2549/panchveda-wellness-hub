@@ -1,7 +1,0 @@
-import logo from "@/assests/logo.png";
-<span classname="flex items-center">
-<img src="/logo.png"
-alt="logo"
-classname="w-8 h-8 mr-2"
-/>
-PanchaVeda </span>

@@ -1,108 +1,161 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import {
-  Menu,
-  MessageCircle,
-  User,
-  ShoppingCart,
-  Calendar,
-  BarChart3,
-  BookOpen,
-} from "lucide-react";
-import logo from "@/assets/logo.png"; // ✅ your logo file (put inside src/assets)
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Menu, MessageCircle, User, ShoppingCart, Calendar, BarChart3, BookOpen, LogOut } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
 
+  useEffect(() => {
+    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+    setIsLoggedIn(loggedIn);
+  }, [location]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userType");
+    setIsLoggedIn(false);
+  };
+
   const navItems = [
-    { name: "Home", path: "/" },
-    { name: "Features", path: "/features" },
-    { name: "Book Therapy", path: "/book-therapy", icon: Calendar },
-    { name: "Track Progress", path: "/track-progress", icon: BarChart3 },
+    { name: "Home", path: "/", icon: null },
+    { name: "Features", path: "/features", icon: null },
+    { name: "Book Therapy", path: "/book", icon: Calendar },
+    { name: "Track Progress", path: "/progress", icon: BarChart3 },
     { name: "Store", path: "/store", icon: ShoppingCart },
-    { name: "Knowledge Hub", path: "/knowledge-hub", icon: BookOpen },
+    { name: "Knowledge Hub", path: "/knowledge", icon: BookOpen },
   ];
 
+  const isActive = (path: string) => location.pathname === path;
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b bg-background/80 backdrop-blur-lg">
-      <div className="container flex h-16 items-center justify-between">
-        {/* ===== Left Section (Logo + Title) ===== */}
-        <Link to="/" className="flex items-center space-x-2">
-          <span className="font-bold text-xl text-primary">🌿 Panchaveda</span>
-        </Link>
+    <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-[var(--gradient-primary)] rounded-full flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-sm">P</span>
+            </div>
+            <span className="font-bold text-xl text-primary">Panchveda</span>
+          </Link>
 
-        {/* ===== Desktop Nav Links ===== */}
-        <div className="hidden md:flex items-center space-x-6">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = location.pathname === item.path;
-
-            return (
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            {navItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
-                className={`flex items-center gap-2 text-sm font-medium transition-colors ${
-                  isActive ? "text-primary" : "text-muted-foreground hover:text-primary"
+                className={`transition-colors hover:text-primary ${
+                  isActive(item.path) ? "text-primary font-medium" : "text-muted-foreground"
                 }`}
               >
-                {Icon && <Icon size={18} />}
                 {item.name}
               </Link>
-            );
-          })}
-        </div>
+            ))}
+          </div>
 
-        {/* ===== Right Section (Buttons) ===== */}
-        <div className="hidden md:flex items-center space-x-4">
-          <Button variant="ghost" size="icon">
-            <MessageCircle className="h-5 w-5" />
-          </Button>
-          <Button variant="ghost" size="icon">
-            <User className="h-5 w-5" />
-          </Button>
-        </div>
-
-        {/* ===== Mobile Menu ===== */}
-        <Sheet open={isOpen} onOpenChange={setIsOpen}>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <Menu className="h-5 w-5" />
+          {/* Desktop Actions */}
+          <div className="hidden md:flex items-center space-x-4">
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/chat">
+                <MessageCircle className="w-4 h-4 mr-2" />
+                ArogyaMitra
+              </Link>
             </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="p-6">
-            <div className="flex flex-col space-y-4">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = location.pathname === item.path;
-
-                return (
-                  <Link
-                    key={item.name}
-                    to={item.path}
-                    className={`flex items-center gap-2 text-base font-medium transition-colors ${
-                      isActive ? "text-primary" : "text-muted-foreground hover:text-primary"
-                    }`}
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {Icon && <Icon size={20} />}
-                    {item.name}
-                  </Link>
-                );
-              })}
-              <div className="flex space-x-4 pt-4">
-                <Button variant="ghost" size="icon">
-                  <MessageCircle className="h-5 w-5" />
-                </Button>
-                <Button variant="ghost" size="icon">
-                  <User className="h-5 w-5" />
+            {isLoggedIn ? (
+              <div className="flex items-center space-x-2">
+                <Avatar className="w-8 h-8">
+                  <AvatarFallback className="bg-primary/10 text-primary">
+                    <User className="w-4 h-4" />
+                  </AvatarFallback>
+                </Avatar>
+                <Button variant="ghost" size="sm" onClick={handleLogout}>
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
                 </Button>
               </div>
-            </div>
-          </SheetContent>
-        </Sheet>
+            ) : (
+              <>
+                <Button variant="outline" size="sm" asChild>
+                  <Link to="/login">
+                    <User className="w-4 h-4 mr-2" />
+                    Login
+                  </Link>
+                </Button>
+                <Button className="hero-button" size="sm" asChild>
+                  <Link to="/health-questionnaire">Get Started</Link>
+                </Button>
+              </>
+            )}
+          </div>
+
+          {/* Mobile Menu */}
+          <div className="md:hidden">
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="sm">
+                  <Menu className="w-5 h-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-72">
+                <div className="flex flex-col space-y-4 mt-8">
+                  {navItems.map((item) => (
+                    <Link
+                      key={item.name}
+                      to={item.path}
+                      onClick={() => setIsOpen(false)}
+                      className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
+                        isActive(item.path)
+                          ? "bg-primary/10 text-primary font-medium"
+                          : "text-muted-foreground hover:text-primary hover:bg-muted"
+                      }`}
+                    >
+                      {item.icon && <item.icon className="w-4 h-4" />}
+                      <span>{item.name}</span>
+                    </Link>
+                  ))}
+                  <div className="pt-4 space-y-2">
+                    {isLoggedIn ? (
+                      <div className="space-y-2">
+                        <div className="flex items-center space-x-3 px-3 py-2">
+                          <Avatar className="w-8 h-8">
+                            <AvatarFallback className="bg-primary/10 text-primary">
+                              <User className="w-4 h-4" />
+                            </AvatarFallback>
+                          </Avatar>
+                          <span className="text-sm text-muted-foreground">Guest User</span>
+                        </div>
+                        <Button variant="outline" className="w-full" onClick={() => { handleLogout(); setIsOpen(false); }}>
+                          <LogOut className="w-4 h-4 mr-2" />
+                          Logout
+                        </Button>
+                      </div>
+                    ) : (
+                      <>
+                        <Button variant="outline" className="w-full" asChild>
+                          <Link to="/login" onClick={() => setIsOpen(false)}>
+                            <User className="w-4 h-4 mr-2" />
+                            Login
+                          </Link>
+                        </Button>
+                        <Button className="hero-button w-full" asChild>
+                          <Link to="/health-questionnaire" onClick={() => setIsOpen(false)}>
+                            Get Started
+                          </Link>
+                        </Button>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
       </div>
     </nav>
   );
