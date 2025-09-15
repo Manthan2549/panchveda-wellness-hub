@@ -38,7 +38,7 @@ const Navbar = () => {
               className="w-8 h-8 rounded-full"
             />
           </span>
-          <span className="font-bold text-xl text-primary">Panchaveda</span>
+          <span className="font-bold text-xl text-primary">🌿 Panchaveda</span>
         </Link>
 
         {/* ===== Desktop Nav Links ===== */}
