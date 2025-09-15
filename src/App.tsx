@@ -1,8 +1,10 @@
+// App.tsx
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -11,43 +13,36 @@ import Features from "./pages/Features";
 import BookTherapy from "./pages/BookTherapy";
 import KnowledgeHub from "./pages/KnowledgeHub";
 import Chat from "./pages/Chat";
-import HealthQuestionnaire from "./components/HealthQuestionnaire";
+import HealthQuestionnaire from "./pages/HealthQuestionnaire";  // ✅ Correct import
 import NotFound from "./pages/NotFound";
-// import React from "react";
-// import { Routes, Route } from "react-router-dom";
-// import Login from "./pages/Login";
-// import Dashboard from "./pages/Dashboard";
-
-// export default App;
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      {/* ✅ Toast notifications */}
       <Toaster />
       <Sonner />
+
       <BrowserRouter>
         <Routes>
+          {/* Main Routes */}
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/features" element={<Features />} />
           <Route path="/book" element={<BookTherapy />} />
-          <Route path="/progress" element={<Dashboard />} />
-          <Route path="/" element={<Dashboard />} />
-        <Route path="/book-therapy" element={<BookTherapy />} />
-{/*           <Route path="/book-therapy" element={<BookTherapy />} /> */}
+          <Route path="/book-therapy" element={<BookTherapy />} />
           <Route path="/store" element={<Store />} />
           <Route path="/knowledge" element={<KnowledgeHub />} />
           <Route path="/chat" element={<Chat />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+
+          {/* Questionnaire Routes */}
           <Route path="/questionnaire" element={<HealthQuestionnaire />} />
-{/*         <Route path="/" element={<Features />} /> */}
-{/*         <Route path="/features" element={<Features />} /> */}
-        <Route path="/health-questionnaire" element={<HealthQuestionnaire />} /> {/* ✅ new route */}
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/health-questionnaire" element={<HealthQuestionnaire />} />
+
+          {/* Catch-all route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
