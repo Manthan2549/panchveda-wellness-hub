@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff, Mail, User, Stethoscope, Loader2 } from "lucide-react"; // removed Phone
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 
 type UserType = "patient" | "practitioner";
