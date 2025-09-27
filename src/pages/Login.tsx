@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Eye, EyeOff, Mail, Phone, User, Stethoscope, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Mail, User, Stethoscope, Loader2 } from "lucide-react"; // removed Phone
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabase";
 import { z } from "zod";
@@ -49,7 +49,10 @@ const Login: React.FC = () => {
 
   const validateForm = () => {
     try {
-      loginSchema.parse(loginData);
+      loginSchema.parse({
+        email: loginData.email,
+        password: loginData.password,
+      });
       setErrors({});
       return true;
     } catch (error) {
@@ -75,19 +78,16 @@ const Login: React.FC = () => {
     setErrors({});
 
     try {
-      // Determine if input is email or phone
       const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginData.email);
       
       let authResult;
       
       if (isEmail) {
-        // Email login
         authResult = await supabase.auth.signInWithPassword({
           email: loginData.email,
           password: loginData.password,
         });
       } else {
-        // Phone login - for demo purposes, we'll show a message
         toast({
           title: "Phone Login",
           description: "Phone login will be implemented with OTP verification.",
@@ -108,7 +108,6 @@ const Login: React.FC = () => {
         return;
       }
 
-      // Store user type and remember me preference
       localStorage.setItem("userType", loginData.userType);
       if (rememberMe) {
         localStorage.setItem("rememberMe", "true");
@@ -119,14 +118,12 @@ const Login: React.FC = () => {
         description: `You have been successfully logged in as ${loginData.userType}.`,
       });
 
-      // Reset form
       setLoginData({
         email: "",
         password: "",
         userType: "patient",
       });
 
-      // Redirect to dashboard
       navigate("/dashboard");
     } catch (error) {
       console.error('Login error:', error);
@@ -266,7 +263,7 @@ const Login: React.FC = () => {
                     <Checkbox
                       id="remember"
                       checked={rememberMe}
-                      onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                      onCheckedChange={(checked) => setRememberMe(checked === true)}
                     />
                     <Label htmlFor="remember" className="text-sm font-normal cursor-pointer">
                       Remember me
@@ -355,7 +352,7 @@ const Login: React.FC = () => {
                     <Checkbox
                       id="practitioner-remember"
                       checked={rememberMe}
-                      onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                      onCheckedChange={(checked) => setRememberMe(checked === true)}
                     />
                     <Label htmlFor="practitioner-remember" className="text-sm font-normal cursor-pointer">
                       Remember me
@@ -453,11 +450,6 @@ const Login: React.FC = () => {
               <span className="text-muted-foreground">Don't have an account? </span>
               <Link to="/signup" className="text-primary hover:underline font-medium">
                 Sign up
-              </Link>
-            </div>
-            <div>
-              <Link to="/forgot-password" className="text-muted-foreground hover:text-primary">
-                Forgot your password?
               </Link>
             </div>
           </div>
