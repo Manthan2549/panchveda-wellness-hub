@@ -108,14 +108,20 @@ const Login: React.FC = () => {
         return;
       }
 
-      localStorage.setItem("userType", loginData.userType);
+      // Fetch user profile to determine role
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('user_id', authResult.data.user.id)
+        .single();
+
       if (rememberMe) {
         localStorage.setItem("rememberMe", "true");
       }
 
       toast({
         title: "Welcome back! 🙏",
-        description: `You have been successfully logged in as ${loginData.userType}.`,
+        description: `You have been successfully logged in.`,
       });
 
       setLoginData({
@@ -124,7 +130,11 @@ const Login: React.FC = () => {
         userType: "patient",
       });
 
-      navigate("/dashboard");
+      // Redirect based on user role
+      const dashboardPath = profile?.role === 'practitioner' 
+        ? '/practitioner-dashboard' 
+        : '/patient-dashboard';
+      navigate(dashboardPath);
     } catch (error) {
       console.error('Login error:', error);
       setErrors({ general: 'An unexpected error occurred. Please try again.' });

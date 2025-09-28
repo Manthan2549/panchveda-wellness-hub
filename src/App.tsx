@@ -3,10 +3,14 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./components/AuthWrapper";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
+import PatientDashboard from "./pages/PatientDashboard";
+import PractitionerDashboard from "./pages/PractitionerDashboard";
 import Store from "./pages/Store";
 import Features from "./pages/Features";
 import BookTherapy from "./pages/BookTherapy";
@@ -25,35 +29,73 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/features" element={<Features />} />
-          <Route path="/book" element={<BookTherapy />} />
-          <Route path="/progress" element={<Dashboard />} />
-          <Route path="/" element={<Dashboard />} />
-        <Route path="/book-therapy" element={<BookTherapy />} />
-{/*           <Route path="/book-therapy" element={<BookTherapy />} /> */}
-          <Route path="/store" element={<Store />} />
-          <Route path="/knowledge" element={<KnowledgeHub />} />
-          <Route path="/chat" element={<Chat />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/questionnaire" element={<HealthQuestionnaire />} />
-{/*         <Route path="/" element={<Features />} /> */}
-{/*         <Route path="/features" element={<Features />} /> */}
-        <Route path="/health-questionnaire" element={<HealthQuestionnaire />} /> {/* ✅ new route */}
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            {/* Public routes */}
+            <Route path="/" element={<Index />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            
+            {/* Protected routes */}
+            <Route path="/dashboard" element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/patient-dashboard" element={
+              <ProtectedRoute requiredRole="patient">
+                <PatientDashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/practitioner-dashboard" element={
+              <ProtectedRoute requiredRole="practitioner">
+                <PractitionerDashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/book-therapy" element={
+              <ProtectedRoute>
+                <BookTherapy />
+              </ProtectedRoute>
+            } />
+            <Route path="/store" element={
+              <ProtectedRoute>
+                <Store />
+              </ProtectedRoute>
+            } />
+            <Route path="/knowledge" element={
+              <ProtectedRoute>
+                <KnowledgeHub />
+              </ProtectedRoute>
+            } />
+            <Route path="/chat" element={
+              <ProtectedRoute>
+                <Chat />
+              </ProtectedRoute>
+            } />
+            <Route path="/questionnaire" element={
+              <ProtectedRoute>
+                <HealthQuestionnaire />
+              </ProtectedRoute>
+            } />
+            <Route path="/health-questionnaire" element={
+              <ProtectedRoute>
+                <HealthQuestionnaire />
+              </ProtectedRoute>
+            } />
+            
+            {/* Public feature pages for demonstration */}
+            <Route path="/features" element={<Features />} />
+            
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 
