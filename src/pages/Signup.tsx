@@ -85,9 +85,8 @@ const Signup: React.FC = () => {
         options: {
           emailRedirectTo: `${window.location.origin}/dashboard`,
           data: {
-            first_name: signupData.fullName.split(' ')[0] || '',
-            last_name: signupData.fullName.split(' ').slice(1).join(' ') || '',
-            role: signupData.userType,
+            full_name: signupData.fullName,
+            user_type: signupData.userType,
           }
         }
       });
@@ -160,7 +159,7 @@ const Signup: React.FC = () => {
             <div className="w-10 h-10 bg-[var(--gradient-primary)] rounded-full flex items-center justify-center">
               <span className="text-primary-foreground font-bold">P</span>
             </div>
-            <span className="text-2xl font-bold text-primary">AyurSutra</span>
+            <span className="text-2xl font-bold text-primary">Panchveda</span>
           </div>
           <div>
             <CardTitle className="text-2xl text-foreground">Create Account</CardTitle>

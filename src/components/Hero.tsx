@@ -18,27 +18,27 @@ const Hero = () => {
               
               <h1 className="text-4xl md:text-6xl font-bold text-foreground leading-tight">
                 <span className="bg-[var(--gradient-primary)] bg-clip-text text-black">
-                  AyurSutra – Panchakarma Management Platform
+                  Panchakarma Management Software
                 </span>
               </h1>
               
               <p className="text-xl text-muted-foreground max-w-lg">
-                Transform traditional Ayurveda practice with AI-powered therapy management, 
-                personalized wellness tracking, and role-based healthcare solutions for practitioners and patients.
+                Experience the future of Ayurveda healthcare with AI-powered therapy management, 
+                personalized wellness tracking, and seamless patient care.
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Button className="hero-button" size="lg" asChild>
-                <Link to="/login">
-                  Login to Continue
+                <Link to="/health-questionnaire">
+                  Get Started Free
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Link>
               </Button>
               
               <Button variant="outline" size="lg" asChild>
-                <Link to="/signup">
-                  Register Now
+                <Link to="/features">
+                  Explore Features
                 </Link>
               </Button>
             </div>
