@@ -6,34 +6,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Eye, EyeOff, Mail, User, Stethoscope, Loader2 } from "lucide-react"; // removed Phone
+import { Eye, EyeOff, Mail, Phone, User, Stethoscope } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { z } from "zod";
 
 type UserType = "patient" | "practitioner";
 
-// Validation schema
-const loginSchema = z.object({
-  email: z.string().trim().nonempty("Email/Phone is required").refine(
-    (value) => {
-      // Check if it's a valid email
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      // Check if it's a valid phone number (10-15 digits)
-      const phoneRegex = /^\+?[\d\s-()]{10,15}$/;
-      return emailRegex.test(value) || phoneRegex.test(value.replace(/\s/g, ''));
-    },
-    "Please enter a valid email or phone number"
-  ),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
-
 const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [loginData, setLoginData] = useState<{
     email: string;
     password: string;
@@ -47,115 +26,27 @@ const Login: React.FC = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const validateForm = () => {
-    try {
-      loginSchema.parse({
-        email: loginData.email,
-        password: loginData.password,
-      });
-      setErrors({});
-      return true;
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const newErrors: { [key: string]: string } = {};
-        error.errors.forEach((err) => {
-          if (err.path[0]) {
-            newErrors[err.path[0] as string] = err.message;
-          }
-        });
-        setErrors(newErrors);
-      }
-      return false;
-    }
-  };
-
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    if (!validateForm()) return;
-    
-    setIsLoading(true);
-    setErrors({});
 
-    try {
-      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginData.email);
-      
-      let authResult;
-      
-      if (isEmail) {
-        authResult = await supabase.auth.signInWithPassword({
-          email: loginData.email,
-          password: loginData.password,
-        });
-      } else {
-        toast({
-          title: "Phone Login",
-          description: "Phone login will be implemented with OTP verification.",
-          variant: "default",
-        });
-        setIsLoading(false);
-        return;
-      }
+    // Set login state in localStorage
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("userType", loginData.userType);
 
-      if (authResult.error) {
-        if (authResult.error.message.includes('Invalid login credentials')) {
-          setErrors({ general: 'Invalid email or password. Please try again.' });
-        } else if (authResult.error.message.includes('Email not confirmed')) {
-          setErrors({ general: 'Please verify your email before logging in.' });
-        } else {
-          setErrors({ general: authResult.error.message });
-        }
-        return;
-      }
+    toast({
+      title: "Welcome back! 🙏",
+      description: `You have been successfully logged in as ${loginData.userType}.`,
+    });
 
-      localStorage.setItem("userType", loginData.userType);
-      if (rememberMe) {
-        localStorage.setItem("rememberMe", "true");
-      }
+    // reset form
+    setLoginData({
+      email: "",
+      password: "",
+      userType: "patient",
+    });
 
-      toast({
-        title: "Welcome back! 🙏",
-        description: `You have been successfully logged in as ${loginData.userType}.`,
-      });
-
-      setLoginData({
-        email: "",
-        password: "",
-        userType: "patient",
-      });
-
-      navigate("/dashboard");
-    } catch (error) {
-      console.error('Login error:', error);
-      setErrors({ general: 'An unexpected error occurred. Please try again.' });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleSocialLogin = async (provider: 'google' | 'facebook') => {
-    setIsLoading(true);
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: `${window.location.origin}/dashboard`,
-        },
-      });
-
-      if (error) {
-        setErrors({ general: error.message });
-      }
-    } catch (error) {
-      console.error('Social login error:', error);
-      setErrors({ general: 'Social login failed. Please try again.' });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleForgotPassword = () => {
-    navigate('/forgot-password');
+    // redirect
+    navigate("/dashboard");
   };
 
   return (
@@ -177,12 +68,6 @@ const Login: React.FC = () => {
         </CardHeader>
 
         <CardContent className="space-y-6">
-          {errors.general && (
-            <div className="p-3 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md">
-              {errors.general}
-            </div>
-          )}
-          
           <Tabs
             value={loginData.userType}
             onValueChange={(value: string) =>
@@ -218,13 +103,10 @@ const Login: React.FC = () => {
                       onChange={(e) =>
                         setLoginData((prev) => ({ ...prev, email: e.target.value }))
                       }
-                      className={`pl-10 ${errors.email ? 'border-destructive' : ''}`}
+                      className="pl-10"
                       required
                     />
                   </div>
-                  {errors.email && (
-                    <p className="text-sm text-destructive">{errors.email}</p>
-                  )}
                 </div>
 
                 <div className="space-y-2">
@@ -238,13 +120,12 @@ const Login: React.FC = () => {
                       onChange={(e) =>
                         setLoginData((prev) => ({ ...prev, password: e.target.value }))
                       }
-                      className={errors.password ? 'border-destructive' : ''}
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground"
                     >
                       {showPassword ? (
                         <EyeOff className="w-4 h-4" />
@@ -253,41 +134,20 @@ const Login: React.FC = () => {
                       )}
                     </button>
                   </div>
-                  {errors.password && (
-                    <p className="text-sm text-destructive">{errors.password}</p>
-                  )}
                 </div>
 
                 <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="remember"
-                      checked={rememberMe}
-                      onCheckedChange={(checked) => setRememberMe(checked === true)}
-                    />
-                    <Label htmlFor="remember" className="text-sm font-normal cursor-pointer">
-                      Remember me
-                    </Label>
-                  </div>
-                  <Button
-                    type="button"
-                    variant="link"
-                    className="text-primary hover:underline p-0 h-auto"
-                    onClick={handleForgotPassword}
-                  >
+                  <label className="flex items-center space-x-2">
+                    <input type="checkbox" className="rounded" />
+                    <span>Remember me</span>
+                  </label>
+                  <Link to="/forgot-password" className="text-primary hover:underline">
                     Forgot password?
-                  </Button>
+                  </Link>
                 </div>
 
-                <Button type="submit" className="w-full hero-button" disabled={isLoading}>
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Signing In...
-                    </>
-                  ) : (
-                    'Sign In as Patient'
-                  )}
+                <Button type="submit" className="w-full hero-button">
+                  Sign In as Patient
                 </Button>
               </form>
             </TabsContent>
@@ -307,13 +167,10 @@ const Login: React.FC = () => {
                       onChange={(e) =>
                         setLoginData((prev) => ({ ...prev, email: e.target.value }))
                       }
-                      className={`pl-10 ${errors.email ? 'border-destructive' : ''}`}
+                      className="pl-10"
                       required
                     />
                   </div>
-                  {errors.email && (
-                    <p className="text-sm text-destructive">{errors.email}</p>
-                  )}
                 </div>
 
                 <div className="space-y-2">
@@ -327,13 +184,12 @@ const Login: React.FC = () => {
                       onChange={(e) =>
                         setLoginData((prev) => ({ ...prev, password: e.target.value }))
                       }
-                      className={errors.password ? 'border-destructive' : ''}
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground"
                     >
                       {showPassword ? (
                         <EyeOff className="w-4 h-4" />
@@ -342,41 +198,10 @@ const Login: React.FC = () => {
                       )}
                     </button>
                   </div>
-                  {errors.password && (
-                    <p className="text-sm text-destructive">{errors.password}</p>
-                  )}
                 </div>
 
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="practitioner-remember"
-                      checked={rememberMe}
-                      onCheckedChange={(checked) => setRememberMe(checked === true)}
-                    />
-                    <Label htmlFor="practitioner-remember" className="text-sm font-normal cursor-pointer">
-                      Remember me
-                    </Label>
-                  </div>
-                  <Button
-                    type="button"
-                    variant="link"
-                    className="text-primary hover:underline p-0 h-auto"
-                    onClick={handleForgotPassword}
-                  >
-                    Forgot password?
-                  </Button>
-                </div>
-
-                <Button type="submit" className="w-full hero-button" disabled={isLoading}>
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Signing In...
-                    </>
-                  ) : (
-                    'Sign In as Practitioner'
-                  )}
+                <Button type="submit" className="w-full hero-button">
+                  Sign In as Practitioner
                 </Button>
               </form>
             </TabsContent>
@@ -395,63 +220,38 @@ const Login: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <Button 
-              variant="outline" 
-              className="w-full" 
-              onClick={() => handleSocialLogin('google')}
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              ) : (
-                <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
-                  <path
-                    fill="currentColor"
-                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                  />
-                  <path
-                    fill="currentColor"
-                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                  />
-                  <path
-                    fill="currentColor"
-                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                  />
-                  <path
-                    fill="currentColor"
-                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                  />
-                </svg>
-              )}
+            <Button variant="outline" className="w-full">
+              <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
+                <path
+                  fill="currentColor"
+                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                />
+                <path
+                  fill="currentColor"
+                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                />
+                <path
+                  fill="currentColor"
+                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                />
+                <path
+                  fill="currentColor"
+                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                />
+              </svg>
               Google
             </Button>
-            <Button 
-              variant="outline" 
-              className="w-full" 
-              onClick={() => handleSocialLogin('facebook')}
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              ) : (
-                <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
-                  <path
-                    fill="currentColor"
-                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
-                  />
-                </svg>
-              )}
-              Facebook
+            <Button variant="outline" className="w-full">
+              <Phone className="w-4 h-4 mr-2" />
+              OTP
             </Button>
           </div>
 
-          <div className="text-center text-sm space-y-2">
-            <div>
-              <span className="text-muted-foreground">Don't have an account? </span>
-              <Link to="/signup" className="text-primary hover:underline font-medium">
-                Sign up
-              </Link>
-            </div>
+          <div className="text-center text-sm">
+            <span className="text-muted-foreground">Don't have an account? </span>
+            <Link to="/signup" className="text-primary hover:underline font-medium">
+              Sign up
+            </Link>
           </div>
         </CardContent>
       </Card>
