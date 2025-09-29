@@ -45,8 +45,12 @@ const Login: React.FC = () => {
       userType: "patient",
     });
 
-    // redirect
-    navigate("/dashboard");
+    // redirect based on user type
+    if (loginData.userType === "practitioner") {
+      navigate("/practitioner-dashboard");
+    } else {
+      navigate("/dashboard");
+    }
   };
 
   return (

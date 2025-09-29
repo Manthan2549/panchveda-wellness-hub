@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import PractitionerDashboard from "./pages/PractitionerDashboard";
 import Store from "./pages/Store";
 import Features from "./pages/Features";
 import BookTherapy from "./pages/BookTherapy";
@@ -33,20 +34,16 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/practitioner-dashboard" element={<PractitionerDashboard />} />
           <Route path="/features" element={<Features />} />
           <Route path="/book" element={<BookTherapy />} />
           <Route path="/progress" element={<Dashboard />} />
-          <Route path="/" element={<Dashboard />} />
-        <Route path="/book-therapy" element={<BookTherapy />} />
-{/*           <Route path="/book-therapy" element={<BookTherapy />} /> */}
+          <Route path="/book-therapy" element={<BookTherapy />} />
           <Route path="/store" element={<Store />} />
           <Route path="/knowledge" element={<KnowledgeHub />} />
           <Route path="/chat" element={<Chat />} />
-          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/questionnaire" element={<HealthQuestionnaire />} />
-{/*         <Route path="/" element={<Features />} /> */}
-{/*         <Route path="/features" element={<Features />} /> */}
-        <Route path="/health-questionnaire" element={<HealthQuestionnaire />} /> {/* ✅ new route */}
+          <Route path="/health-questionnaire" element={<HealthQuestionnaire />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
