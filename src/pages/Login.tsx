@@ -61,7 +61,7 @@ const Login: React.FC = () => {
             <div className="w-10 h-10 bg-[var(--gradient-primary)] rounded-full flex items-center justify-center">
               <span className="text-primary-foreground font-bold">P</span>
             </div>
-            <span className="text-2xl font-bold text-primary">AyurSutra</span>
+            <span className="text-2xl font-bold text-primary">🌿AyurSutra</span>
           </div>
           <div>
             <CardTitle className="text-2xl text-foreground">Welcome Back</CardTitle>
