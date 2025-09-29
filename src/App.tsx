@@ -1,10 +1,8 @@
-// App.tsx
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -13,66 +11,45 @@ import Features from "./pages/Features";
 import BookTherapy from "./pages/BookTherapy";
 import KnowledgeHub from "./pages/KnowledgeHub";
 import Chat from "./pages/Chat";
-import Signup from "./pages/Signup";
-import PatientDashboard from "./pages/PatientDashboard";
-import PractitionerDashboard from "./pages/PractitionerDashboard";
-import AuthWrapper from "./components/AuthWrapper";
-import ProtectedRoute from "./components/ProtectedRoute";
+import HealthQuestionnaire from "./components/HealthQuestionnaire";
 import NotFound from "./pages/NotFound";
+// import React from "react";
+// import { Routes, Route } from "react-router-dom";
+// import Login from "./pages/Login";
+// import Dashboard from "./pages/Dashboard";
+
+// export default App;
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      {/* ✅ Toast notifications */}
       <Toaster />
       <Sonner />
-
       <BrowserRouter>
-        <AuthWrapper>
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            
-            {/* Protected Routes */}
-            <Route path="/patient-dashboard" element={
-              <ProtectedRoute allowedRoles={['patient']}>
-                <PatientDashboard />
-              </ProtectedRoute>
-            } />
-            <Route path="/practitioner-dashboard" element={
-              <ProtectedRoute allowedRoles={['practitioner']}>
-                <PractitionerDashboard />
-              </ProtectedRoute>
-            } />
-            <Route path="/book" element={
-              <ProtectedRoute allowedRoles={['patient']}>
-                <BookTherapy />
-              </ProtectedRoute>
-            } />
-            <Route path="/store" element={
-              <ProtectedRoute allowedRoles={['patient']}>
-                <Store />
-              </ProtectedRoute>
-            } />
-            <Route path="/chat" element={
-              <ProtectedRoute allowedRoles={['patient']}>
-                <Chat />
-              </ProtectedRoute>
-            } />
-            
-            {/* Legacy routes - redirect to dashboard */}
-            <Route path="/dashboard" element={<PatientDashboard />} />
-            <Route path="/features" element={<Features />} />
-            <Route path="/knowledge" element={<KnowledgeHub />} />
-
-            {/* Catch-all route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AuthWrapper>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/features" element={<Features />} />
+          <Route path="/book" element={<BookTherapy />} />
+          <Route path="/progress" element={<Dashboard />} />
+          <Route path="/" element={<Dashboard />} />
+        <Route path="/book-therapy" element={<BookTherapy />} />
+{/*           <Route path="/book-therapy" element={<BookTherapy />} /> */}
+          <Route path="/store" element={<Store />} />
+          <Route path="/knowledge" element={<KnowledgeHub />} />
+          <Route path="/chat" element={<Chat />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/questionnaire" element={<HealthQuestionnaire />} />
+{/*         <Route path="/" element={<Features />} /> */}
+{/*         <Route path="/features" element={<Features />} /> */}
+        <Route path="/health-questionnaire" element={<HealthQuestionnaire />} /> {/* ✅ new route */}
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

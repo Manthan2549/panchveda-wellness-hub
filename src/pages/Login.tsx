@@ -8,14 +8,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff, Mail, Phone, User, Stethoscope } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/lib/supabase";
-import { useAuth } from "@/components/AuthWrapper";
 
 type UserType = "patient" | "practitioner";
 
 const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [loginData, setLoginData] = useState<{
     email: string;
     password: string;
@@ -28,77 +25,28 @@ const Login: React.FC = () => {
 
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { user, userRole } = useAuth();
 
-  // Redirect if already logged in
-  React.useEffect(() => {
-    if (user && userRole) {
-      if (userRole === 'practitioner') {
-        navigate('/practitioner-dashboard');
-      } else {
-        navigate('/patient-dashboard');
-      }
-    }
-  }, [user, userRole, navigate]);
-
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
 
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email: loginData.email,
-        password: loginData.password,
-      });
+    // Set login state in localStorage
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("userType", loginData.userType);
 
-      if (error) {
-        toast({
-          title: "Login failed",
-          description: error.message,
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "Welcome back! 🙏",
-          description: "You have been successfully logged in.",
-        });
-        
-        // Navigation will be handled by useEffect once auth state changes
-      }
-    } catch (error) {
-      toast({
-        title: "Login failed",
-        description: "An unexpected error occurred",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+    toast({
+      title: "Welcome back! 🙏",
+      description: `You have been successfully logged in as ${loginData.userType}.`,
+    });
 
-  const handleGoogleLogin = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/`,
-        }
-      });
+    // reset form
+    setLoginData({
+      email: "",
+      password: "",
+      userType: "patient",
+    });
 
-      if (error) {
-        toast({
-          title: "Google login failed",
-          description: error.message,
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      toast({
-        title: "Google login failed",
-        description: "An unexpected error occurred",
-        variant: "destructive",
-      });
-    }
+    // redirect
+    navigate("/dashboard");
   };
 
   return (
@@ -198,8 +146,8 @@ const Login: React.FC = () => {
                   </Link>
                 </div>
 
-                <Button type="submit" className="w-full hero-button" disabled={loading}>
-                  {loading ? 'Signing in...' : 'Sign In as Patient'}
+                <Button type="submit" className="w-full hero-button">
+                  Sign In as Patient
                 </Button>
               </form>
             </TabsContent>
@@ -252,8 +200,8 @@ const Login: React.FC = () => {
                   </div>
                 </div>
 
-                <Button type="submit" className="w-full hero-button" disabled={loading}>
-                  {loading ? 'Signing in...' : 'Sign In as Practitioner'}
+                <Button type="submit" className="w-full hero-button">
+                  Sign In as Practitioner
                 </Button>
               </form>
             </TabsContent>
@@ -272,7 +220,7 @@ const Login: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <Button variant="outline" className="w-full" onClick={handleGoogleLogin}>
+            <Button variant="outline" className="w-full">
               <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
                 <path
                   fill="currentColor"

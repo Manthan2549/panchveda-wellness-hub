@@ -30,7 +30,7 @@ const Hero = () => {
 
             <div className="flex flex-col sm:flex-row gap-4">
               <Button className="hero-button" size="lg" asChild>
-                <Link to="/signup">
+                <Link to="/health-questionnaire">
                   Get Started Free
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Link>
