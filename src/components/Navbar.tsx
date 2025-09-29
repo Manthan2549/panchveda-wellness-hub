@@ -40,7 +40,7 @@ const Navbar = () => {
           <Link to="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-[var(--gradient-primary)] rounded-full flex items-center justify-center">
             </div>
-            <span className="font-bold text-xl text-primary">🌿 Panchaveda</span>
+            <span className="font-bold text-xl text-primary">🌿 AyurSutra</span>
           </Link>
 
           {/* Desktop Navigation */}
