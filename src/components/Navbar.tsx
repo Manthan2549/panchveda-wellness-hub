@@ -1,25 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Menu, MessageCircle, User, ShoppingCart, Calendar, BarChart3, BookOpen, LogOut } from "lucide-react";
+import {
+  Menu,
+  MessageCircle,
+  User,
+  ShoppingCart,
+  Calendar,
+  BarChart3,
+  BookOpen,
+} from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
-
-  useEffect(() => {
-    const loggedIn = localStorage.getItem("isLoggedIn") === "true";
-    setIsLoggedIn(loggedIn);
-  }, [location]);
-
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("userType");
-    setIsLoggedIn(false);
-  };
 
   const navItems = [
     { name: "Home", path: "/", icon: null },
@@ -39,8 +34,9 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <div className="w-8 h-8 bg-[var(--gradient-primary)] rounded-full flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-sm">P</span>
             </div>
-            <span className="font-bold text-xl text-primary">🌿 Panchaveda</span>
+            <span className="font-bold text-xl text-primary">Panchveda</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -50,7 +46,9 @@ const Navbar = () => {
                 key={item.name}
                 to={item.path}
                 className={`transition-colors hover:text-primary ${
-                  isActive(item.path) ? "text-primary font-medium" : "text-muted-foreground"
+                  isActive(item.path)
+                    ? "text-primary font-medium"
+                    : "text-muted-foreground"
                 }`}
               >
                 {item.name}
@@ -66,31 +64,16 @@ const Navbar = () => {
                 ArogyaMitra
               </Link>
             </Button>
-            {isLoggedIn ? (
-              <div className="flex items-center space-x-2">
-                <Avatar className="w-8 h-8">
-                  <AvatarFallback className="bg-primary/10 text-primary">
-                    <User className="w-4 h-4" />
-                  </AvatarFallback>
-                </Avatar>
-                <Button variant="ghost" size="sm" onClick={handleLogout}>
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Logout
-                </Button>
-              </div>
-            ) : (
-              <>
-                <Button variant="outline" size="sm" asChild>
-                  <Link to="/login">
-                    <User className="w-4 h-4 mr-2" />
-                    Login
-                  </Link>
-                </Button>
-                <Button className="hero-button" size="sm" asChild>
-                  <Link to="/health-questionnaire">Get Started</Link>
-                </Button>
-              </>
-            )}
+            <Button variant="outline" size="sm" asChild>
+              <Link to="/login">
+                <User className="w-4 h-4 mr-2" />
+                Login
+              </Link>
+            </Button>
+            {/* ✅ Fixed Get Started */}
+            <Button className="hero-button" size="sm" asChild>
+              <Link to="/health-questionnaire">Get Started</Link>
+            </Button>
           </div>
 
           {/* Mobile Menu */}
@@ -119,36 +102,18 @@ const Navbar = () => {
                     </Link>
                   ))}
                   <div className="pt-4 space-y-2">
-                    {isLoggedIn ? (
-                      <div className="space-y-2">
-                        <div className="flex items-center space-x-3 px-3 py-2">
-                          <Avatar className="w-8 h-8">
-                            <AvatarFallback className="bg-primary/10 text-primary">
-                              <User className="w-4 h-4" />
-                            </AvatarFallback>
-                          </Avatar>
-                          <span className="text-sm text-muted-foreground">Guest User</span>
-                        </div>
-                        <Button variant="outline" className="w-full" onClick={() => { handleLogout(); setIsOpen(false); }}>
-                          <LogOut className="w-4 h-4 mr-2" />
-                          Logout
-                        </Button>
-                      </div>
-                    ) : (
-                      <>
-                        <Button variant="outline" className="w-full" asChild>
-                          <Link to="/login" onClick={() => setIsOpen(false)}>
-                            <User className="w-4 h-4 mr-2" />
-                            Login
-                          </Link>
-                        </Button>
-                        <Button className="hero-button w-full" asChild>
-                          <Link to="/health-questionnaire" onClick={() => setIsOpen(false)}>
-                            Get Started
-                          </Link>
-                        </Button>
-                      </>
-                    )}
+                    <Button variant="outline" className="w-full" asChild>
+                      <Link to="/login" onClick={() => setIsOpen(false)}>
+                        <User className="w-4 h-4 mr-2" />
+                        Login
+                      </Link>
+                    </Button>
+                    {/* ✅ Fixed Get Started in mobile too */}
+                    <Button className="hero-button" size="sm" asChild>
+                      <Link to="/health-questionnaire" onClick={() => setIsOpen(false)}>
+                        Get Started
+                      </Link>
+                    </Button>
                   </div>
                 </div>
               </SheetContent>

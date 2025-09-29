@@ -29,10 +29,6 @@ const Login: React.FC = () => {
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Set login state in localStorage
-    localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("userType", loginData.userType);
-
     toast({
       title: "Welcome back! 🙏",
       description: `You have been successfully logged in as ${loginData.userType}.`,

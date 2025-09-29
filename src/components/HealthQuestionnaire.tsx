@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -27,7 +26,6 @@ const HealthQuestionnaire = () => {
   const [isComplete, setIsComplete] = useState(false);
   const [result, setResult] = useState<QuestionnaireResult | null>(null);
   const { toast } = useToast();
-  const navigate = useNavigate();
 
   const getQuestionsFlow = () => {
     const baseQuestions: Question[] = [
@@ -242,10 +240,9 @@ const HealthQuestionnaire = () => {
 
   const skipQuestionnaire = () => {
     toast({
-      title: "Redirecting to Book Therapy",
-      description: "You can take the assessment later from your dashboard.",
+      title: "Questionnaire Skipped",
+      description: "You can always take it later from your dashboard.",
     });
-    navigate("/book-therapy");
   };
 
   if (isComplete && result) {
