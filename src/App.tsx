@@ -13,7 +13,11 @@ import Features from "./pages/Features";
 import BookTherapy from "./pages/BookTherapy";
 import KnowledgeHub from "./pages/KnowledgeHub";
 import Chat from "./pages/Chat";
-import HealthQuestionnaire from "./pages/HealthQuestionnaire";  // ✅ Correct import
+import Signup from "./pages/Signup";
+import PatientDashboard from "./pages/PatientDashboard";
+import PractitionerDashboard from "./pages/PractitionerDashboard";
+import AuthWrapper from "./components/AuthWrapper";
+import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,25 +30,49 @@ const App = () => (
       <Sonner />
 
       <BrowserRouter>
-        <Routes>
-          {/* Main Routes */}
-          <Route path="/" element={<Index />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/features" element={<Features />} />
-          <Route path="/book" element={<BookTherapy />} />
-          <Route path="/book-therapy" element={<BookTherapy />} />
-          <Route path="/store" element={<Store />} />
-          <Route path="/knowledge" element={<KnowledgeHub />} />
-          <Route path="/chat" element={<Chat />} />
+        <AuthWrapper>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<Index />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            
+            {/* Protected Routes */}
+            <Route path="/patient-dashboard" element={
+              <ProtectedRoute allowedRoles={['patient']}>
+                <PatientDashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/practitioner-dashboard" element={
+              <ProtectedRoute allowedRoles={['practitioner']}>
+                <PractitionerDashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/book" element={
+              <ProtectedRoute allowedRoles={['patient']}>
+                <BookTherapy />
+              </ProtectedRoute>
+            } />
+            <Route path="/store" element={
+              <ProtectedRoute allowedRoles={['patient']}>
+                <Store />
+              </ProtectedRoute>
+            } />
+            <Route path="/chat" element={
+              <ProtectedRoute allowedRoles={['patient']}>
+                <Chat />
+              </ProtectedRoute>
+            } />
+            
+            {/* Legacy routes - redirect to dashboard */}
+            <Route path="/dashboard" element={<PatientDashboard />} />
+            <Route path="/features" element={<Features />} />
+            <Route path="/knowledge" element={<KnowledgeHub />} />
 
-          {/* Questionnaire Routes */}
-          <Route path="/questionnaire" element={<HealthQuestionnaire />} />
-          <Route path="/health-questionnaire" element={<HealthQuestionnaire />} />
-
-          {/* Catch-all route */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+            {/* Catch-all route */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthWrapper>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
